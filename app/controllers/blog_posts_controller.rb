@@ -3,7 +3,7 @@ class BlogPostsController < ApplicationController
   before_action :authenticate_user!, except: [:show, :index]
 
   def index
-    @blogPosts = BlogPost.all
+    @blogPosts = user_signed_in? ? BlogPost.sorted : BlogPost.sorted.published
   end
 
   def show
@@ -41,11 +41,11 @@ class BlogPostsController < ApplicationController
 
   private
   def blog_posts_params
-    params.require(:blog_post).permit(:title, :body)
+    params.require(:blog_post).permit(:title, :body, :published_at)
   end
 
   def find_blog_post
-    @blog_post = BlogPost.find(params[:id])
+    @blog_post = user_signed_in? ? BlogPost.find(params[:id]) : BlogPost.published.find(params[:id])
   rescue
     redirect_to root_path
   end
