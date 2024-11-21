@@ -1,1 +1,6 @@
-<h1><%= @blogPost.title %></h1>
+<h1><%= @blog_post.title %></h1>
+<p><%= @blog_post.body %></p>
+
+<div>
+    <%= link_to "Edit this Blog Post", edit_blog_post_path(@blog_post) %>
+</div>
